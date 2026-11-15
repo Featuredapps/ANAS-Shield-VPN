@@ -34,7 +34,7 @@ class MainActivity : Activity() {
             val state = if (newState == Tunnel.State.UP) "connected" else "disconnected"
             runOnUiThread {
                 if (!activityDestroyed && ::web.isInitialized) {
-                    notifyWeb(state, if (state == "connected") "اتصال WireGuard نشط" else "تم إيقاف النفق")
+                    notifyWeb(state, if (state == "connected") "واجهة WireGuard نشطة؛ لم يتم التحقق من المصافحة" else "تم إيقاف النفق")
                 }
             }
         }
