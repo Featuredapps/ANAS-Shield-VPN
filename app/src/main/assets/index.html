@@ -281,30 +281,32 @@
     </main>
 
     <!-- ===================================================================== -->
-    <!-- TAB 2: السيرفرات (GLOBAL NODES & REAL HTTP LATENCY PROBE)             -->
-    <!-- ===================================================================== -->
+    <!-- TAB 2: REAL FREE VPN PROVIDER -->
     <main id="view-nodes" class="app-tab hidden flex-1 flex-col gap-3 px-4 pt-3 pb-24 overflow-y-auto">
-      <!-- Search & Real HTTP Latency Probe Button -->
-      <div class="flex items-center gap-2">
-        <input id="nodeSearchInput" type="text" placeholder="ابحث عن دولة أو مدينة..." oninput="renderNodes()" class="flex-1 bg-[#0C0C11] border border-white/10 focus:border-[#D4AF37] rounded-2xl px-3.5 py-2.5 text-xs font-cairo text-white outline-none" />
-        <button id="probeBtn" onclick="runRealHttpLatencyProbe()" class="spring-btn px-3 py-2.5 rounded-2xl bg-[#D4AF37] text-black font-cairo font-black text-xs shrink-0 shadow-[0_0_20px_rgba(212,175,55,0.25)]">
-          ⚡ فحص Ping حقيقي
-        </button>
-      </div>
-
-      <!-- Category Filter Pills -->
-      <div class="flex items-center gap-1.5 overflow-x-auto pb-1">
-        <button onclick="setNodeFilter('all')" data-cat="all" class="node-cat-btn shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-cairo font-black bg-[#D4AF37] text-black">الكل (8)</button>
-        <button onclick="setNodeFilter('fastest')" data-cat="fastest" class="node-cat-btn shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-cairo font-bold bg-[#0C0C11] border border-white/10 text-zinc-300">⚡ الأسرع</button>
-        <button onclick="setNodeFilter('gaming')" data-cat="gaming" class="node-cat-btn shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-cairo font-bold bg-[#0C0C11] border border-white/10 text-zinc-300">🎮 للألعاب</button>
-        <button onclick="setNodeFilter('streaming')" data-cat="streaming" class="node-cat-btn shrink-0 px-3 py-1.5 rounded-xl text-[11px] font-cairo font-bold bg-[#0C0C11] border border-white/10 text-zinc-300">🎬 للبث</button>
-      </div>
-
-      <!-- Nodes List -->
-      <div id="nodesContainer" class="flex flex-col gap-2"></div>
+      <section class="material-card rounded-3xl p-4 border-[#D4AF37]/25">
+        <div class="flex items-center justify-between gap-2">
+          <div><h2 class="font-cairo font-black text-base text-white">🌍 خوادم مجانية حقيقية</h2><p class="text-[11px] text-zinc-400 mt-1">مزود مجاني متوافق مع WireGuard</p></div>
+          <span class="rounded-xl px-2 py-1 bg-emerald-500/10 text-emerald-300 text-[10px] font-bold">FREE</span>
+        </div>
+        <div class="mt-3 rounded-2xl bg-white/[0.04] border border-white/10 p-3">
+          <div class="font-cairo font-black text-sm text-white">Proton VPN Free</div>
+          <p class="text-[11px] leading-6 text-zinc-300 mt-1">خطة مجانية رسمية بلا حد بيانات أو سرعة معلن، وتتطلب حساباً مجانياً. اختيار الخادم وتغييره يخضعان لقيود الخطة المجانية.</p>
+          <div class="grid grid-cols-2 gap-2 mt-3 text-[11px] text-zinc-200">
+            <span>🇳🇱 هولندا</span><span>🇯🇵 اليابان</span><span>🇷🇴 رومانيا</span><span>🇵🇱 بولندا</span><span>🇳🇴 النرويج</span><span>🇨🇭 سويسرا</span><span>🇸🇬 سنغافورة</span><span>🇲🇽 المكسيك</span><span>🇨🇦 كندا</span><span>🇺🇸 الولايات المتحدة</span>
+          </div>
+        </div>
+        <button onclick="openProtonFreeAccount()" class="spring-btn w-full mt-3 py-3 rounded-2xl bg-[#D4AF37] text-black font-cairo font-black text-xs">إنشاء حساب مجاني لدى Proton</button>
+        <button onclick="openProtonWireGuardSetup()" class="spring-btn w-full mt-2 py-3 rounded-2xl bg-white/[0.06] border border-white/15 text-white font-cairo font-bold text-xs">فتح صفحة إعداد WireGuard</button>
+      </section>
+      <section class="rounded-2xl border border-amber-400/20 bg-amber-400/[0.06] p-3">
+        <div class="font-cairo font-black text-xs text-amber-200">طريقة التشغيل</div>
+        <ol class="mt-2 list-decimal pr-5 text-[11px] leading-6 text-zinc-300">
+          <li>أنشئ حساب Proton المجاني وسجّل الدخول.</li><li>افتح Downloads ثم WireGuard configuration.</li><li>اختر خادماً متاحاً لخطة Free ونزّل ملف .conf.</li><li>ارجع إلى SHIELD، افتح تبويب الأمان، استورد الملف ثم اضغط اتصال.</li>
+        </ol>
+        <p class="text-[10px] leading-5 text-zinc-400 mt-2">ملف .conf يصدره المزود لحسابك؛ لا توجد مفاتيح أو عناوين ثابتة وهمية داخل التطبيق.</p>
+      </section>
     </main>
 
-    <!-- ===================================================================== -->
     <!-- TAB 3: التقسيم الذكي (SPLIT TUNNELING MANAGER)                        -->
     <!-- ===================================================================== -->
     <main id="view-split" class="app-tab hidden flex-1 flex-col gap-3 px-4 pt-3 pb-24 overflow-y-auto">
@@ -399,7 +401,7 @@
           <button onclick="downloadWireGuardConf()" class="spring-btn py-2.5 rounded-2xl bg-[#D4AF37] text-black font-cairo font-black text-xs shadow-[0_0_20px_rgba(212,175,55,0.2)]">
             ⬇ تنزيل ملف .conf
           </button>
-          <label class="spring-btn py-2.5 rounded-2xl bg-white/[0.06] hover:bg-white/10 border border-white/15 text-white font-cairo font-bold text-xs text-center cursor-pointer">
+          <label class="spring-btn py-2.5 rounded-2xl bg-white/[0.06] hover:bg-white/10 border border-white/15 text-white font-cairo font-bold text-xs text-center cursor-pointer" onclick="if(window.AndroidVpn){event.preventDefault();AndroidVpn.openConfigPicker()}">
             📂 استيراد .conf
             <input type="file" accept=".conf,.txt" onchange="importWireGuardConf(event)" class="hidden" />
           </label>
@@ -451,14 +453,7 @@
      * ============================================================================
      */
     const NODES = [
-      { id: 'de-fra', name: 'ألمانيا — فرانكفورت #01', flag: '🇩🇪', ping: 24, load: 16, cat: 'fastest', tag: 'FASTEST', ip: '193.32.126.44', endpoint: 'fra01.anasgdxj-shield.net:51820', pubKey: 'vK8mQ2rT9xL4pW7nJ1zY6cB0dF3gH5sA9uE8iO2wX4=' },
-      { id: 'nl-ams', name: 'هولندا — أمستردام #02', flag: '🇳🇱', ping: 29, load: 22, cat: 'fastest', tag: 'NO-LOGS CORE', ip: '185.220.101.19', endpoint: 'ams02.anasgdxj-shield.net:51820', pubKey: 'pR4nJ1zY6cB0dF3gH5sA9uE8iO2wX4vK8mQ2rT9xL7=' },
-      { id: 'ch-zur', name: 'سويسرا — زيورخ #01', flag: '🇨🇭', ping: 33, load: 14, cat: 'fastest', tag: 'SWISS VAULT', ip: '179.43.158.72', endpoint: 'zur01.anasgdxj-shield.net:51820', pubKey: 'zY6cB0dF3gH5sA9uE8iO2wX4vK8mQ2rT9xL4pW7nJ1=' },
-      { id: 'ae-dxb', name: 'الإمارات — دبي #01', flag: '🇦🇪', ping: 37, load: 28, cat: 'gaming', tag: 'GAMING LOW PING', ip: '94.200.14.88', endpoint: 'dxb01.anasgdxj-shield.net:51820', pubKey: 'dF3gH5sA9uE8iO2wX4vK8mQ2rT9xL4pW7nJ1zY6cB0=' },
-      { id: 'uk-lon', name: 'بريطانيا — لندن #03', flag: '🇬🇧', ping: 43, load: 41, cat: 'streaming', tag: '4K STREAMING', ip: '51.140.82.105', endpoint: 'lon03.anasgdxj-shield.net:51820', pubKey: 'sA9uE8iO2wX4vK8mQ2rT9xL4pW7nJ1zY6cB0dF3gH5=' },
-      { id: 'us-nyc', name: 'أمريكا — نيويورك #01', flag: '🇺🇸', ping: 86, load: 36, cat: 'streaming', tag: 'US MEDIA', ip: '104.244.76.13', endpoint: 'nyc01.anasgdxj-shield.net:51820', pubKey: 'iO2wX4vK8mQ2rT9xL4pW7nJ1zY6cB0dF3gH5sA9uE8=' },
-      { id: 'sg-sin', name: 'سنغافورة — مارينا #01', flag: '🇸🇬', ping: 94, load: 25, cat: 'gaming', tag: 'ASIA GAMING', ip: '139.99.48.201', endpoint: 'sin01.anasgdxj-shield.net:51820', pubKey: 'wX4vK8mQ2rT9xL4pW7nJ1zY6cB0dF3gH5sA9uE8iO2=' },
-      { id: 'jp-tyo', name: 'اليابان — طوكيو #02', flag: '🇯🇵', ping: 109, load: 21, cat: 'gaming', tag: 'TOKYO NODE', ip: '45.76.198.54', endpoint: 'tyo02.anasgdxj-shield.net:51820', pubKey: 'mQ2rT9xL4pW7nJ1zY6cB0dF3gH5sA9uE8iO2wX4vK8=' }
+      { id: 'proton-free', name: 'Proton VPN Free', flag: '🌐', ping: '—', load: '—', cat: 'free', tag: 'FREE CONFIG REQUIRED', ip: '', endpoint: '', pubKey: '' }
     ];
 
     const ANDROID_APPS = [
@@ -568,7 +563,7 @@
         realIspSummary = 'Direct Carrier IPv4 • Unencrypted';
       }
       ispEl.textContent = tunnelStatus === 'connected'
-        ? `Tunnel: ${activeNode.endpoint} (AES-256-GCM)`
+        ? `WireGuard interface active — handshake not verified here`
         : realIspSummary;
       renderIpBanner();
     }
@@ -578,42 +573,55 @@
      * 4. VPN TUNNEL STATE MACHINE & HANDSHAKE SEQUENCE
      * ============================================================================
      */
-    function toggleTunnel() {
-      triggerHaptic([20, 30, 20]);
-      if (tunnelStatus === 'disconnected') {
-        initiateHandshake();
-      } else {
-        terminateTunnel();
-      }
+    function openProtonFreeAccount() {
+      if (window.AndroidVpn && AndroidVpn.openExternalUrl) AndroidVpn.openExternalUrl('https://protonvpn.com/free-vpn');
+      else showToast('افتح protonvpn.com/free-vpn في المتصفح');
     }
 
-    function initiateHandshake() {
-      clearAllHandshakeTimers();
-      tunnelStatus = 'connecting';
+    function openProtonWireGuardSetup() {
+      if (window.AndroidVpn && AndroidVpn.openExternalUrl) AndroidVpn.openExternalUrl('https://account.protonvpn.com/downloads');
+      else showToast('افتح account.protonvpn.com/downloads في المتصفح');
+    }
+
+    function toggleTunnel() {
+      triggerHaptic([20, 30, 20]);
+      if (tunnelStatus === 'connected' || tunnelStatus === 'connecting') {
+        if (window.AndroidVpn) AndroidVpn.disconnect();
+        return;
+      }
+      if (!window.importedWireGuardConfig) {
+        showToast('استورد ملف WireGuard صالحاً أولاً');
+        switchTab('security');
+        return;
+      }
+      tunnelStatus = 'connecting'; syncTunnelVisuals();
+      document.getElementById('handshakeStatusLine').textContent = 'طلب إذن VPN وبدء النفق الحقيقي...';
+      if (window.AndroidVpn) AndroidVpn.connect(window.importedWireGuardConfig);
+      else { tunnelStatus = 'disconnected'; syncTunnelVisuals(); showToast('خدمة VPN الأصلية غير متاحة'); }
+    }
+
+    window.onNativeVpnState = function(state, message) {
+      tunnelStatus = state;
+      if (state === 'connected') { elapsedSeconds = 0; startSessionClock(); }
+      else { stopSessionClock(); elapsedSeconds = 0; }
       syncTunnelVisuals();
-      playChime('tap');
+      document.getElementById('handshakeStatusLine').textContent = message || (state === 'connected' ? 'بدأ نفق WireGuard؛ تحقق من المصافحة لدى المزود' : 'غير متصل');
+      showToast(message || state);
+    };
+    window.importedWireGuardConfig = null;
 
-      const logLine = document.getElementById('handshakeStatusLine');
-      logLine.textContent = 'توليد مفاتيح الجلسة Curve25519...';
+    window.onNativeConfigImported = function(configText, fileName) {
+      window.importedWireGuardConfig = String(configText || '');
+      const privMatch = window.importedWireGuardConfig.match(/PrivateKey\\s*=\\s*([^\\s\\r\\n]+)/i);
+      const endMatch = window.importedWireGuardConfig.match(/Endpoint\\s*=\\s*([^\\s\\r\\n]+)/i);
+      if (privMatch) clientPrivateKey = privMatch[1];
+      if (endMatch) activeNode.endpoint = endMatch[1];
+      updateWireGuardConfPreview();
+      showToast('تم استيراد ' + (fileName || 'ملف WireGuard') + ' بنجاح');
+    };
 
-      handshakeTimers.push(setTimeout(() => {
-        logLine.textContent = `مصافحة ${currentProtocol} عبر المنفذ ${currentPortLabel}...`;
-      }, 600));
-
-      handshakeTimers.push(setTimeout(() => {
-        logLine.textContent = `تفعيل جدار DNS المشفر وتوجيه حركة البيانات...`;
-      }, 1250));
-
-      handshakeTimers.push(setTimeout(() => {
-        tunnelStatus = 'connected';
-        elapsedSeconds = 0;
-        totalMegabytes = 0;
-        startSessionClock();
-        syncTunnelVisuals();
-        triggerHaptic([35, 50, 45]);
-        playChime('connected');
-        showToast(`🛡️ تم تأمين الاتصال عبر ${activeNode.name}`);
-      }, 1900));
+    function initiateHandshake() {
+      showToast('استخدم زر الاتصال بعد استيراد ملف WireGuard حقيقي');
     }
 
     function terminateTunnel() {
@@ -771,27 +779,13 @@
     let currentUlTarget = 0;
 
     function sampleNetworkThroughput() {
-      if (tunnelStatus === 'connected') {
-        currentDlTarget = Math.max(22, 165 - activeNode.load * 1.1 + (Math.random() - 0.42) * 38);
-        currentUlTarget = Math.max(9, currentDlTarget * 0.44 + (Math.random() - 0.5) * 14);
-        totalMegabytes += ((currentDlTarget + currentUlTarget) / 8) * 0.55;
-
-        document.getElementById('dlSpeedVal').textContent = currentDlTarget.toFixed(1);
-        document.getElementById('ulSpeedVal').textContent = currentUlTarget.toFixed(1);
-        document.getElementById('totalDataVal').textContent = totalMegabytes >= 1024
-          ? `${(totalMegabytes / 1024).toFixed(2)} GB`
-          : totalMegabytes.toFixed(1);
-
-        dlSamples.push(currentDlTarget);
-        dlSamples.shift();
-        ulSamples.push(currentUlTarget);
-        ulSamples.shift();
-      } else {
-        dlSamples.push(0);
-        dlSamples.shift();
-        ulSamples.push(0);
-        ulSamples.shift();
-      }
+      const connected = tunnelStatus === 'connected';
+      currentDlTarget = 0; currentUlTarget = 0;
+      document.getElementById('dlSpeedVal').textContent = connected ? '—' : '0.0';
+      document.getElementById('ulSpeedVal').textContent = connected ? '—' : '0.0';
+      document.getElementById('totalDataVal').textContent = connected ? '—' : '0.0';
+      dlSamples.push(0); dlSamples.shift();
+      ulSamples.push(0); ulSamples.shift();
     }
 
     function render60FpsTrafficCanvas() {
@@ -867,96 +861,11 @@
     }
 
     function renderNodes() {
-      const q = (document.getElementById('nodeSearchInput').value || '').trim().toLowerCase();
-      const box = document.getElementById('nodesContainer');
-      box.innerHTML = '';
-
-      NODES.filter((n) => {
-        const matchCat = nodeCategoryFilter === 'all' || n.cat === nodeCategoryFilter;
-        const matchTxt = !q || n.name.toLowerCase().includes(q) || n.tag.toLowerCase().includes(q);
-        return matchCat && matchTxt;
-      }).forEach((node) => {
-        const selected = node.id === activeNode.id;
-        const pingClr = node.ping < 45 ? 'text-[#10B981]' : node.ping < 95 ? 'text-[#D4AF37]' : 'text-[#EF4444]';
-
-        const item = document.createElement('button');
-        item.onclick = () => selectServerNode(node);
-        item.className = `spring-btn material-card rounded-2xl p-3 flex items-center justify-between text-right transition ${
-          selected ? 'border-[#D4AF37] bg-[#D4AF37]/[0.09]' : 'border-white/[0.07] hover:border-white/20'
-        }`;
-
-        item.innerHTML = `
-          <div class="flex items-center gap-3">
-            <span class="text-2xl leading-none">${node.flag}</span>
-            <div>
-              <div class="font-cairo font-black text-xs text-white">${node.name}</div>
-              <div class="flex items-center gap-2 mt-0.5">
-                <span class="font-mono-code text-[9px] font-bold px-1.5 py-0.5 rounded bg-white/[0.06] text-[#D4AF37]">${node.tag}</span>
-                <span class="font-mono-code text-[10px] text-zinc-400" dir="ltr">Load ${node.load}%</span>
-              </div>
-            </div>
-          </div>
-          <div class="flex items-center gap-2.5">
-            <div class="text-left font-mono-code" dir="ltr">
-              <div class="text-xs font-extrabold ${pingClr}">${node.ping} ms</div>
-              <div class="text-[8px] text-zinc-500">HTTP RTT</div>
-            </div>
-            <span class="w-4 h-4 rounded-full border flex items-center justify-center ${
-              selected ? 'border-[#D4AF37] bg-[#D4AF37] text-black text-[10px] font-black' : 'border-zinc-600'
-            }">${selected ? '✓' : ''}</span>
-          </div>
-        `;
-        box.appendChild(item);
-      });
+      // The provider provisions the real endpoint in the imported WireGuard profile.
     }
 
-    function selectServerNode(node) {
-      activeNode = node;
-      document.getElementById('connServerFlag').textContent = node.flag;
-      document.getElementById('connServerName').textContent = node.name;
-      document.getElementById('connServerBadge').textContent = node.tag;
-      document.getElementById('connServerPing').textContent = `${node.ping} ms`;
-      document.getElementById('connServerLoad').textContent = `Load ${node.load}%`;
-
-      updateWireGuardConfPreview();
-      renderNodes();
-      switchTab('connect');
-
-      if (tunnelStatus === 'connected' || tunnelStatus === 'connecting') {
-        initiateHandshake();
-      } else {
-        triggerHaptic(15);
-        playChime('tap');
-        showToast(`تم تحديد السيرفر: ${node.name}`);
-      }
-    }
-
-    async function runRealHttpLatencyProbe() {
-      const btn = document.getElementById('probeBtn');
-      btn.textContent = '⏳ جاري الفحص...';
-      triggerHaptic(18);
-
-      // Measure real browser network round-trip latency
-      let measuredBaseRtt = 32;
-      try {
-        const t0 = performance.now();
-        await fetch('https://www.cloudflare.com/cdn-cgi/trace', { mode: 'no-cors', cache: 'no-store' });
-        measuredBaseRtt = Math.max(14, Math.min(95, Math.round(performance.now() - t0)));
-      } catch (e) {
-        measuredBaseRtt = 28;
-      }
-
-      const geoOffsets = { 'de-fra': 0, 'nl-ams': 5, 'ch-zur': 9, 'ae-dxb': 14, 'uk-lon': 19, 'us-nyc': 62, 'sg-sin': 71, 'jp-tyo': 84 };
-      NODES.forEach((n) => {
-        const jitter = Math.round((Math.random() - 0.4) * 6);
-        n.ping = Math.max(12, measuredBaseRtt + (geoOffsets[n.id] || 15) + jitter);
-      });
-
-      document.getElementById('connServerPing').textContent = `${activeNode.ping} ms`;
-      renderNodes();
-      btn.textContent = '⚡ فحص Ping حقيقي';
-      playChime('tap');
-      showToast(`⚡ اكتمل الفحص الفعلي (المرجع: ${measuredBaseRtt} ms)`);
+    function selectServerNode() {
+      showToast('اختر الخادم من حساب مزود VPN ثم استورد ملف WireGuard الحقيقي');
     }
 
     /**
@@ -1045,28 +954,19 @@
      * ============================================================================
      */
     function selectTunnelProtocol(proto, portLabel) {
-      currentProtocol = proto;
-      currentPortLabel = portLabel;
-      document.getElementById('topProtoBadge').textContent = proto;
-      document.getElementById('topPortBadge').textContent = portLabel;
-      localStorage.setItem('anas_vpn_protocol', JSON.stringify({ proto, portLabel }));
-
+      currentProtocol = 'WIREGUARD';
+      currentPortLabel = 'UDP :51820';
+      document.getElementById('topProtoBadge').textContent = currentProtocol;
+      document.getElementById('topPortBadge').textContent = currentPortLabel;
+      localStorage.setItem('anas_vpn_protocol', JSON.stringify({ proto: currentProtocol, portLabel: currentPortLabel }));
       document.querySelectorAll('.proto-card').forEach((card) => {
-        const isCurrent = card.dataset.proto === proto;
-        card.className = `proto-card p-2.5 rounded-2xl border text-center transition ${
-          isCurrent
-            ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-[#D4AF37]'
-            : 'border-white/10 bg-[#050505] text-zinc-400'
-        }`;
+        const active = card.dataset.proto === 'WIREGUARD';
+        card.className = 'proto-card p-2.5 rounded-2xl border text-center transition ' +
+          (active ? 'border-[#D4AF37] bg-[#D4AF37]/15 text-[#D4AF37]' : 'border-white/10 bg-[#050505] text-zinc-500 opacity-50');
+        card.setAttribute('aria-disabled', active ? 'false' : 'true');
       });
-
-      if (tunnelStatus === 'connected') {
-        initiateHandshake();
-      } else {
-        triggerHaptic(14);
-        playChime('tap');
-        showToast(`تم ضبط البروتوكول: ${proto}`);
-      }
+      if (proto !== 'WIREGUARD') showToast('هذا الإصدار يدعم WireGuard فقط؛ البروتوكولات الأخرى غير مفعّلة');
+      updateWireGuardConfPreview();
     }
 
     function persistSecurityPrefs() {
@@ -1121,20 +1021,7 @@
     }
 
     function buildWireGuardConfText() {
-      const dnsServer = document.getElementById('swAdBlock')?.checked ? '1.1.1.2, 1.0.0.2' : '1.1.1.1, 8.8.8.8';
-      return `[Interface]
-# ANAS // SHIELD VPN (@anasgdxj)
-PrivateKey = ${clientPrivateKey}
-Address = 10.66.66.2/32, fd42:42:42::2/128
-DNS = ${dnsServer}
-MTU = 1420
-
-[Peer]
-# Node: ${activeNode.id.toUpperCase()}
-PublicKey = ${activeNode.pubKey}
-Endpoint = ${activeNode.endpoint}
-AllowedIPs = 0.0.0.0/0, ::/0
-PersistentKeepalive = 25`;
+      return window.importedWireGuardConfig || 'لا يمكن إنشاء ملف اتصال من داخل التطبيق. استورد ملف WireGuard .conf صادر من مزود VPN حقيقي.';
     }
 
     function updateWireGuardConfPreview() {
