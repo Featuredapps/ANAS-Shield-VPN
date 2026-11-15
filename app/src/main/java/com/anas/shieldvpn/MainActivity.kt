@@ -3,6 +3,7 @@ package com.anas.shieldvpn
 import android.app.Activity
 import android.content.Intent
 import android.net.VpnService
+import android.net.Uri
 import android.os.Bundle
 import android.webkit.JavascriptInterface
 import android.webkit.WebChromeClient
@@ -92,6 +93,19 @@ class MainActivity : Activity() {
                     putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("text/plain", "application/octet-stream"))
                 }
                 startActivityForResult(intent, 7002)
+            }
+        }
+
+        @JavascriptInterface fun openExternalUrl(rawUrl: String) {
+            runOnUiThread {
+                try {
+                    val uri = Uri.parse(rawUrl)
+                    val allowedHosts = setOf("protonvpn.com", "www.protonvpn.com", "account.protonvpn.com")
+                    require(uri.scheme == "https" && uri.host in allowedHosts) { "رابط غير مسموح" }
+                    startActivity(Intent(Intent.ACTION_VIEW, uri))
+                } catch (e: Exception) {
+                    notifyWeb("disconnected", "تعذر فتح صفحة المزود: ${e.message ?: "خطأ غير معروف"}")
+                }
             }
         }
 
