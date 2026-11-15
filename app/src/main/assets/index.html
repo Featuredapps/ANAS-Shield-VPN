@@ -310,27 +310,10 @@
     <!-- TAB 3: التقسيم الذكي (SPLIT TUNNELING MANAGER)                        -->
     <!-- ===================================================================== -->
     <main id="view-split" class="app-tab hidden flex-1 flex-col gap-3 px-4 pt-3 pb-24 overflow-y-auto">
-      <div class="material-card rounded-3xl p-3.5 border-[#D4AF37]/25">
-        <div class="flex items-center justify-between">
-          <div>
-            <h2 class="font-cairo font-black text-sm text-white">🔀 التقسيم الذكي للتطبيقات (Split Tunneling)</h2>
-            <p class="text-[11px] text-zinc-400 mt-0.5">حدد التطبيقات التي تمر عبر النفق المشفر واستثنِ التطبيقات البنكية المحلية.</p>
-          </div>
-          <span id="splitCountBadge" class="px-2.5 py-1 rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/40 font-mono-code text-xs font-extrabold text-[#D4AF37]">6/8</span>
-        </div>
-
-        <div class="grid grid-cols-2 gap-2 mt-3">
-          <button onclick="setAllSplitApps(true)" class="spring-btn py-2 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 font-cairo font-bold text-[11px] text-white">
-            ✓ تشفير الكل عبر VPN
-          </button>
-          <button onclick="resetSmartBankingPreset()" class="spring-btn py-2 rounded-xl bg-[#D4AF37]/15 border border-[#D4AF37]/40 font-cairo font-bold text-[11px] text-[#D4AF37]">
-            🏦 استثناء البنوك تلقائياً
-          </button>
-        </div>
-      </div>
-
-      <!-- Installed Android Apps List -->
-      <div id="splitAppsList" class="flex flex-col gap-2"></div>
+      <section class="material-card rounded-3xl p-4 border-amber-400/25">
+        <h2 class="font-cairo font-black text-sm text-white">التقسيم الذكي للتطبيقات</h2>
+        <p class="mt-2 text-xs leading-6 text-zinc-300">هذه الميزة غير مفعّلة في هذا الإصدار. محرك WireGuard الحالي يشغّل النفق على مستوى الجهاز ولا يطبّق استثناءات التطبيقات من هذه الشاشة. لن نعرض مفاتيح وهمية توحي بأن التقسيم يعمل.</p>
+      </section>
     </main>
 
     <!-- ===================================================================== -->
@@ -357,50 +340,20 @@
         </div>
       </section>
 
-      <!-- Android Kernel Security Toggles -->
-      <section class="material-card rounded-3xl p-3.5 flex flex-col gap-3">
-        <h2 class="font-cairo font-black text-sm text-white">🔒 درع الحماية المتقدم</h2>
-
-        <label class="flex items-center justify-between py-1 border-b border-white/[0.06] cursor-pointer">
-          <div>
-            <div class="font-cairo font-bold text-xs text-white">قاطع الاتصال التلقائي (Kill Switch)</div>
-            <div class="text-[10px] text-zinc-400">حظر الإنترنت فوراً عند انقطاع النفق لحماية IP الحقيقي</div>
-          </div>
-          <input type="checkbox" id="swKillSwitch" onchange="persistSecurityPrefs()" class="m3-switch" />
-        </label>
-
-        <label class="flex items-center justify-between py-1 border-b border-white/[0.06] cursor-pointer">
-          <div>
-            <div class="font-cairo font-bold text-xs text-white">حماية تسرب DNS (Encrypted DoH 1.1.1.1)</div>
-            <div class="text-[10px] text-zinc-400">منع مزود الإنترنت من تتبع المواقع التي تزورها</div>
-          </div>
-          <input type="checkbox" id="swDnsShield" onchange="persistSecurityPrefs()" class="m3-switch" />
-        </label>
-
-        <label class="flex items-center justify-between py-1 cursor-pointer">
-          <div>
-            <div class="font-cairo font-bold text-xs text-white">حظر الإعلانات والمتتبعين (Noir AdBlock)</div>
-            <div class="text-[10px] text-zinc-400">تصفية نطاقات التجسس والبرمجيات الخبيثة</div>
-          </div>
-          <input type="checkbox" id="swAdBlock" onchange="persistSecurityPrefs()" class="m3-switch" />
-        </label>
+      <section class="material-card rounded-3xl p-3.5">
+        <h2 class="font-cairo font-black text-sm text-white">حالة الحماية الإضافية</h2>
+        <p class="mt-2 text-xs leading-6 text-zinc-300">قاطع الاتصال (Kill Switch)، وتصفية DNS، وحظر الإعلانات غير مفعّلة بعد في المحرك الأصلي. الحماية المتاحة حالياً هي نفق WireGuard المستورد فقط.</p>
       </section>
 
       <!-- Real WireGuard (.conf) Generator & Importer -->
       <section class="material-card rounded-3xl p-3.5 flex flex-col gap-2.5 border-[#D4AF37]/30">
         <div class="flex items-center justify-between">
           <h3 class="font-cairo font-black text-xs text-[#D4AF37]">🔑 مولّد ومستورد ملفات WireGuard (.conf)</h3>
-          <button onclick="regenerateCurve25519Keys()" class="spring-btn px-2.5 py-1 rounded-xl bg-white/[0.07] hover:bg-white/15 text-white font-cairo font-bold text-[10px]">
-            ↻ مفتاح جديد
-          </button>
         </div>
 
         <pre id="wgConfPreview" class="bg-[#050505] border border-white/10 rounded-2xl p-2.5 font-mono-code text-[9.5px] text-zinc-300 overflow-x-auto leading-relaxed" dir="ltr"></pre>
 
         <div class="grid grid-cols-2 gap-2">
-          <button onclick="downloadWireGuardConf()" class="spring-btn py-2.5 rounded-2xl bg-[#D4AF37] text-black font-cairo font-black text-xs shadow-[0_0_20px_rgba(212,175,55,0.2)]">
-            ⬇ تنزيل ملف .conf
-          </button>
           <label class="spring-btn py-2.5 rounded-2xl bg-white/[0.06] hover:bg-white/10 border border-white/15 text-white font-cairo font-bold text-xs text-center cursor-pointer" onclick="if(window.AndroidVpn){event.preventDefault();AndroidVpn.openConfigPicker()}">
             📂 استيراد .conf
             <input type="file" accept=".conf,.txt" onchange="importWireGuardConf(event)" class="hidden" />
@@ -471,10 +424,10 @@
     let nodeCategoryFilter = 'all';
     let tunnelStatus = 'disconnected'; // 'disconnected' | 'connecting' | 'connected'
     let currentProtocol = 'WIREGUARD';
-    let currentPortLabel = 'UDP :51820';
+    let currentPortLabel = 'CONFIG-BASED';
 
-    let realIpAddress = '185.177.84.210';
-    let realIspSummary = 'Local ISP • IPv4 Ready';
+    let realIpAddress = 'غير متاح';
+    let realIspSummary = 'لم يتم التحقق من عنوان IP بعد';
     let isIpUnmasked = false;
 
     let elapsedSeconds = 0;
@@ -482,8 +435,8 @@
     let timerHandle = null;
     let handshakeTimers = [];
 
-    let clientPrivateKey = 'eN8+kL9mQ3vR7pW4nJ1zY6cB0dF3gH5sA9uE8iO2wX0=';
-    let clientPublicKey = 'xT9+kL8mQ2vR7pW4nJ1zY6cB0dF3gH5sA9uE8iO2wX4=';
+    let clientPrivateKey = '';
+    let clientPublicKey = '';
     let splitAppStates = {};
 
     const dlSamples = new Array(52).fill(0);
@@ -602,7 +555,7 @@
 
     window.onNativeVpnState = function(state, message) {
       tunnelStatus = state;
-      if (state === 'connected') { elapsedSeconds = 0; startSessionClock(); }
+      if (state === 'connected') { elapsedSeconds = 0; startSessionClock(); detectRealNetworkInfo(); }
       else { stopSessionClock(); elapsedSeconds = 0; }
       syncTunnelVisuals();
       document.getElementById('handshakeStatusLine').textContent = message || (state === 'connected' ? 'بدأ نفق WireGuard؛ تحقق من المصافحة لدى المزود' : 'غير متصل');
@@ -671,9 +624,9 @@
         outer.className = 'ring-outer-idle absolute inset-0 rounded-full border border-dashed border-[#10B981]/55';
         glow.className = 'ring-breathe absolute inset-5 rounded-full border border-[#10B981]/35 bg-[#10B981]/[0.07]';
 
-        logLine.textContent = `محمي بالكامل • ${currentProtocol} (${currentPortLabel})`;
+        logLine.textContent = `واجهة النفق نشطة • ${currentProtocol} • المصافحة غير مؤكدة`;
         logLine.className = 'font-cairo font-bold text-[11px] text-[#10B981] mt-0.5 h-4';
-        ispEl.textContent = `Endpoint: ${activeNode.endpoint} • ChaCha20-Poly1305`;
+        ispEl.textContent = 'WireGuard interface active • handshake not verified';
       } else if (tunnelStatus === 'connecting') {
         shell.classList.add('state-connecting');
         dot.className = 'w-2 h-2 rounded-full bg-[#D4AF37] animate-ping';
@@ -710,9 +663,9 @@
       const modeEl = document.getElementById('ipModeLabel');
       const valEl = document.getElementById('ipValueText');
       const isConnected = tunnelStatus === 'connected';
-      const targetIp = isConnected ? activeNode.ip : realIpAddress;
+      const targetIp = realIpAddress || 'غير متاح';
 
-      modeEl.textContent = isConnected ? 'IP النفق المشفر:' : 'IP الحقيقي:';
+      modeEl.textContent = isConnected ? 'IP المرصود بعد الاتصال:' : 'IP المرصود:';
       if (isIpUnmasked) {
         valEl.textContent = targetIp;
       } else {
@@ -957,7 +910,7 @@
       currentProtocol = 'WIREGUARD';
       currentPortLabel = 'UDP :51820';
       document.getElementById('topProtoBadge').textContent = currentProtocol;
-      document.getElementById('topPortBadge').textContent = currentPortLabel;
+      document.getElementById('topPortBadge').textContent = 'CONFIG-BASED';
       localStorage.setItem('anas_vpn_protocol', JSON.stringify({ proto: currentProtocol, portLabel: currentPortLabel }));
       document.querySelectorAll('.proto-card').forEach((card) => {
         const active = card.dataset.proto === 'WIREGUARD';
