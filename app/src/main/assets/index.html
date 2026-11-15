@@ -199,11 +199,11 @@
           <span id="connServerFlag" class="text-2xl leading-none">🇩🇪</span>
           <div>
             <div class="flex items-center gap-1.5">
-              <span id="connServerName" class="font-cairo font-black text-xs text-white">ألمانيا — فرانكفورت #01</span>
-              <span id="connServerBadge" class="px-1.5 py-0.5 rounded bg-[#10B981]/15 text-[#10B981] font-mono-code text-[9px] font-bold">FASTEST</span>
+              <span id="connServerName" class="font-cairo font-black text-xs text-white">لم يتم اختيار خادم</span>
+              <span id="connServerBadge" class="px-1.5 py-0.5 rounded bg-white/10 text-zinc-400 font-mono-code text-[9px] font-bold">غير محدد</span>
             </div>
             <div class="font-mono-code text-[10px] text-zinc-400 mt-0.5" dir="ltr">
-              <span id="connServerPing">24 ms</span> • <span id="connServerLoad">Load 16%</span>
+              <span id="connServerPing">— ms</span> • <span id="connServerLoad">لا توجد بيانات</span>
             </div>
           </div>
         </div>
@@ -240,7 +240,7 @@
           <div class="min-w-0">
             <div class="flex items-center gap-1.5">
               <span id="ipModeLabel" class="text-[10px] font-cairo font-bold text-zinc-400">IP الحقيقي:</span>
-              <span id="ipValueText" class="font-mono-code text-xs font-extrabold text-[#D4AF37] truncate" dir="ltr">185.177.***.***</span>
+              <span id="ipValueText" class="font-mono-code text-xs font-extrabold text-[#D4AF37] truncate" dir="ltr">غير متاح</span>
             </div>
             <div id="ispLocationText" class="font-mono-code text-[9px] text-zinc-500 truncate mt-0.5" dir="ltr">Detecting ISP & ASN...</div>
           </div>
@@ -415,7 +415,7 @@
       { pkg: 'com.local.gov.wallet', name: 'المحفظة والدفع الفوري', icon: '💳', type: 'مدفوعات محلية', defaultVpn: false }
     ];
 
-    let activeNode = NODES[0];
+    let activeNode = { id: 'none', name: 'لا يوجد خادم محدد', flag: '🌐', ip: '', endpoint: '', cat: 'public' };
     let selectedPublicServer = null;
     let nodeCategoryFilter = 'all';
     let tunnelStatus = 'disconnected'; // 'disconnected' | 'connecting' | 'connected'
