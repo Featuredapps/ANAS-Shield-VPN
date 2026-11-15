@@ -124,6 +124,25 @@ class MainActivity : Activity() {
         }
     }
 
+    private fun parseCsvLine(line: String): List<String> {
+        val values = mutableListOf<String>()
+        val field = StringBuilder()
+        var quoted = false
+        var i = 0
+        while (i < line.length) {
+            val ch = line[i]
+            when {
+                ch == '"' && quoted && i + 1 < line.length && line[i + 1] == '"' -> { field.append('"'); i++ }
+                ch == '"' -> quoted = !quoted
+                ch == ',' && !quoted -> { values.add(field.toString()); field.setLength(0) }
+                else -> field.append(ch)
+            }
+            i++
+        }
+        values.add(field.toString())
+        return values
+    }
+
     private fun validateConfig(raw: String) {
         require(raw.isNotBlank()) { "الملف فارغ" }
         require(raw.toByteArray(StandardCharsets.UTF_8).size <= 1024 * 1024) { "حجم الملف يتجاوز 1 MB" }
