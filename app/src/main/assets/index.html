@@ -556,13 +556,18 @@
     window.importedWireGuardConfig = null;
 
     window.onNativeConfigImported = function(configText, fileName) {
-      window.importedWireGuardConfig = String(configText || '');
-      const privMatch = window.importedWireGuardConfig.match(/PrivateKey\\s*=\\s*([^\\s\\r\\n]+)/i);
-      const endMatch = window.importedWireGuardConfig.match(/Endpoint\\s*=\\s*([^\\s\\r\\n]+)/i);
+      const candidate = String(configText || '');
+      if (!/^\\s*\\[Interface\\]/mi.test(candidate) || !/^\\s*\\[Peer\\]/mi.test(candidate)) {
+        showToast('الملف لا يبدو إعداد WireGuard صالحاً');
+        return;
+      }
+      window.importedWireGuardConfig = candidate;
+      const privMatch = candidate.match(/PrivateKey\\s*=\\s*([^\\s\\r\\n]+)/i);
+      const endMatch = candidate.match(/Endpoint\\s*=\\s*([^\\s\\r\\n]+)/i);
       if (privMatch) clientPrivateKey = privMatch[1];
       if (endMatch) activeNode.endpoint = endMatch[1];
       updateWireGuardConfPreview();
-      showToast('تم استيراد ' + (fileName || 'ملف WireGuard') + ' بنجاح');
+      showToast('تم استيراد ' + (fileName || 'ملف WireGuard') + '؛ سيتم التحقق منه قبل الاتصال');
     };
 
     function initiateHandshake() {
@@ -976,35 +981,56 @@
     }
 
     function downloadWireGuardConf() {
-      const confContent = buildWireGuardConfText();
+      const confContent = window.importedWireGuardConfig;
+      if (!confContent) {
+        showToast('لا يوجد ملف WireGuard حقيقي لتصديره. استورد ملفاً صالحاً أولاً.');
+        return;
+      }
       const blob = new Blob([confContent], { type: 'text/plain;charset=utf-8' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `anasgdxj-shield-${activeNode.id}.conf`;
+      a.download = 'anas-shield-wireguard.conf';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
       triggerHaptic(20);
-      playChime('connected');
-      showToast(`⬇ تم تنزيل ملف anasgdxj-shield-${activeNode.id}.conf`);
+      showToast('تم تصدير ملف الإعداد المستورد');
     }
 
     function importWireGuardConf(event) {
+      if (window.AndroidVpn && typeof AndroidVpn.openConfigPicker === 'function') {
+        AndroidVpn.openConfigPicker();
+        if (event?.target) event.target.value = '';
+        return;
+      }
       const file = event.target.files?.[0];
       if (!file) return;
+      if (file.size > 1024 * 1024) {
+        showToast('حجم الملف يتجاوز 1 MB');
+        event.target.value = '';
+        return;
+      }
       const reader = new FileReader();
       reader.onload = (e) => {
         const text = String(e.target?.result || '');
+        if (!/^\s*\[Interface\]/mi.test(text) || !/^\s*\[Peer\]/mi.test(text) ||
+            !/^\s*PrivateKey\s*=/mi.test(text) || !/^\s*PublicKey\s*=/mi.test(text) ||
+            !/^\s*Endpoint\s*=/mi.test(text)) {
+          showToast('ملف WireGuard غير مكتمل أو غير صالح');
+          return;
+        }
+        window.importedWireGuardConfig = text;
         const privMatch = text.match(/PrivateKey\s*=\s*([^\s\r\n]+)/i);
         const endMatch = text.match(/Endpoint\s*=\s*([^\s\r\n]+)/i);
         if (privMatch) clientPrivateKey = privMatch[1];
         if (endMatch) activeNode.endpoint = endMatch[1];
         updateWireGuardConfPreview();
         triggerHaptic(20);
-        showToast(`📂 تم استيراد إعدادات ${file.name} بنجاح`);
+        showToast('تم استيراد إعداد WireGuard؛ سيتم التحقق منه قبل الاتصال');
       };
+      reader.onerror = () => showToast('تعذرت قراءة ملف الإعداد');
       reader.readAsText(file);
       event.target.value = '';
     }
