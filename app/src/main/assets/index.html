@@ -170,10 +170,10 @@
           <div>
             <div class="flex items-center gap-1.5">
               <h1 class="font-cairo font-black text-sm text-white tracking-tight">ANAS // SHIELD VPN</h1>
-              <span id="topProtoBadge" class="px-1.5 py-0.5 rounded-md bg-[#D4AF37]/15 border border-[#D4AF37]/40 font-mono-code text-[9px] font-extrabold text-[#D4AF37]">WIREGUARD</span>
+              <span id="topProtoBadge" class="px-1.5 py-0.5 rounded-md bg-[#D4AF37]/15 border border-[#D4AF37]/40 font-mono-code text-[9px] font-extrabold text-[#D4AF37]">PUBLIC DIRECTORY</span>
             </div>
             <div class="flex items-center gap-1.5 font-mono-code text-[10px] text-zinc-400" dir="ltr">
-              <span id="topPortBadge">UDP :51820</span>
+              <span id="topPortBadge">VPN GATE</span>
               <span>•</span>
               <span>ANDROID 15 KERNEL</span>
             </div>
@@ -401,7 +401,7 @@
      * ============================================================================
      */
     const NODES = [
-      { id: 'proton-free', name: 'Proton VPN Free', flag: '🌐', ping: '—', load: '—', cat: 'free', tag: 'FREE CONFIG REQUIRED', ip: '', endpoint: '', pubKey: '' }
+      { id: 'unselected', name: 'لا يوجد خادم محدد', flag: '🌐', ping: '—', load: '—', cat: 'public', tag: 'NO SERVER', ip: '', endpoint: '', pubKey: '' }
     ];
 
     const ANDROID_APPS = [
@@ -523,16 +523,6 @@
      * 4. VPN TUNNEL STATE MACHINE & HANDSHAKE SEQUENCE
      * ============================================================================
      */
-    function openProtonFreeAccount() {
-      if (window.AndroidVpn && AndroidVpn.openExternalUrl) AndroidVpn.openExternalUrl('https://protonvpn.com/free-vpn');
-      else showToast('افتح protonvpn.com/free-vpn في المتصفح');
-    }
-
-    function openProtonWireGuardSetup() {
-      if (window.AndroidVpn && AndroidVpn.openExternalUrl) AndroidVpn.openExternalUrl('https://account.protonvpn.com/downloads');
-      else showToast('افتح account.protonvpn.com/downloads في المتصفح');
-    }
-
     function toggleTunnel() {
       triggerHaptic([20, 30, 20]);
       if (tunnelStatus === 'connected' || tunnelStatus === 'connecting') {
