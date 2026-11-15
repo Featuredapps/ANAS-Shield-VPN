@@ -950,25 +950,11 @@
       updateWireGuardConfPreview();
     }
 
-    function generateBase64Key32() {
-      const bytes = new Uint8Array(32);
-      if (window.crypto && window.crypto.getRandomValues) {
-        window.crypto.getRandomValues(bytes);
-      } else {
-        for (let i = 0; i < 32; i++) bytes[i] = Math.floor(Math.random() * 256);
-      }
-      let bin = '';
-      bytes.forEach((b) => { bin += String.fromCharCode(b); });
-      return btoa(bin);
-    }
-
     function regenerateCurve25519Keys() {
-      clientPrivateKey = generateBase64Key32();
-      clientPublicKey = generateBase64Key32();
-      updateWireGuardConfPreview();
-      triggerHaptic(18);
-      playChime('tap');
-      showToast('🔑 تم توليد زوج مفاتيح Curve25519 مشفر جديد');
+      // A valid WireGuard public key must be derived from the private key
+      // using Curve25519. Independent random values are NOT a key pair.
+      // This build deliberately refuses to fabricate credentials.
+      showToast('توليد المفاتيح غير متاح بعد. استورد ملف WireGuard صادرًا من مزود موثوق.');
     }
 
     function buildWireGuardConfText() {
