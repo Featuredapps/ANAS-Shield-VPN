@@ -416,6 +416,7 @@
     ];
 
     let activeNode = NODES[0];
+    let selectedPublicServer = null;
     let nodeCategoryFilter = 'all';
     let tunnelStatus = 'disconnected'; // 'disconnected' | 'connecting' | 'connected'
     let currentProtocol = 'WIREGUARD';
@@ -529,8 +530,12 @@
         if (window.AndroidVpn) AndroidVpn.disconnect();
         return;
       }
+      if (selectedPublicServer && !window.importedWireGuardConfig) {
+        showToast('تم اختيار الخادم، لكن محرك OpenVPN لم يُدمج بعد. لن يبدأ اتصال وهمي.');
+        return;
+      }
       if (!window.importedWireGuardConfig) {
-        showToast('استورد ملف WireGuard صالحاً أولاً');
+        showToast('لا يوجد اتصال عام جاهز بعد؛ محرك OpenVPN قيد الدمج');
         switchTab('security');
         return;
       }
@@ -1055,6 +1060,7 @@
       }
       let servers = [];
       try { servers = JSON.parse(raw || '[]'); } catch (_) {}
+      selectedPublicServer = null;
       count.textContent = servers.length + ' خادم معروض';
       if (!servers.length) {
         notice.textContent = 'لم يُرجع المصدر خوادم متاحة حالياً. أعد المحاولة لاحقاً.';
@@ -1063,7 +1069,20 @@
       notice.textContent = 'تم جلب القائمة مباشرة. هذه بيانات الدليل وليست اختبار اتصال من جهازك.';
       servers.forEach((server) => {
         const card = document.createElement('article');
-        card.className = 'material-card rounded-2xl p-3 border-white/10';
+        card.className = 'material-card rounded-2xl p-3 border border-white/10 cursor-pointer';
+        card.setAttribute('role', 'button');
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('aria-label', 'اختيار خادم ' + (server.country || 'عام'));
+        const choose = () => {
+          selectedPublicServer = server;
+          activeNode = { id: server.ip || server.host, name: server.country || 'Public VPN Gate', flag: '🌐', ip: server.ip || '', endpoint: server.host || '', cat: 'public' };
+          document.querySelectorAll('#publicServerList article').forEach(el => el.classList.remove('border-[#D4AF37]', 'bg-[#D4AF37]/10'));
+          card.classList.add('border-[#D4AF37]', 'bg-[#D4AF37]/10');
+          document.getElementById('publicServerNotice').textContent = 'تم اختيار ' + (server.country || server.ip) + '. الاتصال غير متاح حتى دمج محرك OpenVPN.';
+          showToast('تم اختيار الخادم؛ الاتصال لم يبدأ');
+        };
+        card.addEventListener('click', choose);
+        card.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); choose(); } });
         const title = document.createElement('div');
         title.className = 'font-cairo font-black text-sm text-white';
         title.textContent = (server.country || 'دولة غير معروفة') + ' · ' + (server.countryCode || '--');
