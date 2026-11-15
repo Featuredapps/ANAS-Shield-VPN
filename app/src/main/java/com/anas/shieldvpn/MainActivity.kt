@@ -96,6 +96,52 @@ class MainActivity : Activity() {
             }
         }
 
+        @JavascriptInterface fun fetchPublicServers() {
+            Thread {
+                try {
+                    val connection = java.net.URL("https://www.vpngate.net/api/iphone/").openConnection() as javax.net.ssl.HttpsURLConnection
+                    connection.connectTimeout = 12000
+                    connection.readTimeout = 18000
+                    connection.setRequestProperty("User-Agent", "ANAS-SHIELD-VPN/2.0")
+                    val body = connection.inputStream.bufferedReader(Charsets.UTF_8).use { it.readText() }
+                    connection.disconnect()
+                    val lines = body.lineSequence().filter { it.isNotBlank() && !it.startsWith("*") && !it.startsWith("#") }.toList()
+                    val result = org.json.JSONArray()
+                    for (line in lines.drop(1)) {
+                        val fields = parseCsvLine(line)
+                        if (fields.size < 15) continue
+                        val host = fields[0]
+                        val ip = fields[1]
+                        val country = fields[5]
+                        val countryCode = fields[6]
+                        val ping = fields[3]
+                        val speed = fields[4]
+                        val sessions = fields[7]
+                        val config = fields[14]
+                        if (host.isBlank() || config.isBlank()) continue
+                        result.put(org.json.JSONObject()
+                            .put("host", host).put("ip", ip)
+                            .put("country", country).put("countryCode", countryCode)
+                            .put("ping", ping).put("speed", speed).put("sessions", sessions))
+                        if (result.length() >= 35) break
+                    }
+                    runOnUiThread {
+                        if (!activityDestroyed && ::web.isInitialized) {
+                            val payload = org.json.JSONObject.quote(result.toString())
+                            web.evaluateJavascript("window.onPublicServersLoaded && window.onPublicServersLoaded($payload, null)", null)
+                        }
+                    }
+                } catch (e: Exception) {
+                    runOnUiThread {
+                        if (!activityDestroyed && ::web.isInitialized) {
+                            val error = org.json.JSONObject.quote(e.message ?: "تعذر جلب الخوادم")
+                            web.evaluateJavascript("window.onPublicServersLoaded && window.onPublicServersLoaded('[]', $error)", null)
+                        }
+                    }
+                }
+            }.start()
+        }
+
         @JavascriptInterface fun openExternalUrl(rawUrl: String) {
             runOnUiThread {
                 try {
