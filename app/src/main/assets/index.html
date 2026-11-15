@@ -348,7 +348,7 @@
       <!-- Real WireGuard (.conf) Generator & Importer -->
       <section class="material-card rounded-3xl p-3.5 flex flex-col gap-2.5 border-[#D4AF37]/30">
         <div class="flex items-center justify-between">
-          <h3 class="font-cairo font-black text-xs text-[#D4AF37]">🔑 مولّد ومستورد ملفات WireGuard (.conf)</h3>
+          <h3 class="font-cairo font-black text-xs text-[#D4AF37]">🔐 مستورد ملفات WireGuard (.conf)</h3>
         </div>
 
         <pre id="wgConfPreview" class="bg-[#050505] border border-white/10 rounded-2xl p-2.5 font-mono-code text-[9.5px] text-zinc-300 overflow-x-auto leading-relaxed" dir="ltr"></pre>
@@ -497,6 +497,8 @@
      * ============================================================================
      */
     async function detectRealNetworkInfo() {
+      realIpAddress = 'غير متاح';
+      renderIpBanner();
       const ispEl = document.getElementById('ispLocationText');
       try {
         const controller = new AbortController();
@@ -614,7 +616,7 @@
       if (tunnelStatus === 'connected') {
         shell.classList.add('state-connected');
         dot.className = 'w-2 h-2 rounded-full bg-[#10B981] animate-pulse';
-        sysText.textContent = 'نفق مشفر نشط';
+        sysText.textContent = 'واجهة WireGuard نشطة';
         sysText.className = 'font-cairo font-extrabold text-[11px] text-[#10B981]';
 
         btn.className = 'spring-btn relative w-28 h-28 rounded-full bg-gradient-to-b from-[#0E261D] to-[#060E0B] border-2 border-[#10B981] shadow-[0_0_45px_rgba(16,185,129,0.38)] flex flex-col items-center justify-center gap-1 z-10';
