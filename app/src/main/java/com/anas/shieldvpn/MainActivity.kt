@@ -107,7 +107,7 @@ class MainActivity : Activity() {
                     connection.disconnect()
                     val lines = body.lineSequence().filter { it.isNotBlank() && !it.startsWith("*") && !it.startsWith("#") }.toList()
                     val result = org.json.JSONArray()
-                    for (line in lines.drop(1)) {
+                    for (line in lines) {
                         val fields = parseCsvLine(line)
                         if (fields.size < 15) continue
                         val host = fields[0]
