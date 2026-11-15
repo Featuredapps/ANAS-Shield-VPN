@@ -142,19 +142,6 @@ class MainActivity : Activity() {
             }.start()
         }
 
-        @JavascriptInterface fun openExternalUrl(rawUrl: String) {
-            runOnUiThread {
-                try {
-                    val uri = Uri.parse(rawUrl)
-                    val allowedHosts = setOf("protonvpn.com", "www.protonvpn.com", "account.protonvpn.com")
-                    require(uri.scheme == "https" && uri.host in allowedHosts) { "رابط غير مسموح" }
-                    startActivity(Intent(Intent.ACTION_VIEW, uri))
-                } catch (e: Exception) {
-                    notifyWeb("disconnected", "تعذر فتح صفحة المزود: ${e.message ?: "خطأ غير معروف"}")
-                }
-            }
-        }
-
         @JavascriptInterface fun disconnect() {
             if (!operationInProgress.compareAndSet(false, true)) return
             vpnExecutor.execute {
